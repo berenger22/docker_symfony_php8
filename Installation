@@ -1,0 +1,25 @@
+PHP 8.1-apache avec Mysql et phpMyAdmin ainsi que mailDev
+
+Pour lancer la création de container, il faut faire :
+          "docker compose up -d"
+Vous pouvez vérifier que les container sont bien présent :
+          "docker compose ps"
+          
+Si tout est bon vous pouvez créer votre projet symfony, pour cela il faut ce placer dans le container :
+          "docker exec www_docker_symfony composer create-project symfony/skeleton:"6.1.*" project"
+
+Ensuite il faut se connecter à notre project (pou quitter le bash dun projet il suffit de faire 'exit' :
+          "docker exec -ti www_docker_symfony bash"
+          
+Si vous souhaitez faire une webapp, il suffit de faire :
+          "cd project"
+          "composer require webapp"
+          
+Si vous avez des problèmes droit sur votre container, il suffit de revenir à la racine du container et de faire :
+          "sudo chown -R $USER ./"
+          
+Ensuite pour créer la base de donnée, il faut venir modifier le fichier .env en mettant ce ceci:
+          "DATABASE_URL="mysql://root:@db_docker_symfony:3306/test_docker?serverVersion=8&charset=utf8mb4"
+Il faut commenter la ligne de DATABASE_URL="postgresql.."
+Et ensuite dnas le terminal il faut taper la commande:
+          "php bin/console doctrine:database:create"
